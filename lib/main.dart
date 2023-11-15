@@ -1,8 +1,11 @@
 import 'package:api_auth/Pages/Home.dart';
 import 'package:flutter/material.dart';
 
+import 'Pages/First.dart';
 import 'Pages/GetOtp.dart';
 import 'Pages/Login.dart';
+import 'Pages/Resend.dart';
+import 'Pages/ResetPass.dart';
 import 'Pages/SignUp.dart';
 import 'Utils/Routes.dart';
 
@@ -19,11 +22,15 @@ class MyApp extends StatelessWidget {
         // home : '/',
         initialRoute: '/',
         routes: {
-        '/': (context) => SignUp(),
+        '/': (context) => First(),
         MyRoutes.GetOtpRoutes: (context) => GetOtp(),
         MyRoutes.SignUpRoutes: (context) => SignUp(),
         MyRoutes.LoginRoutes: (context) => Login(),
         MyRoutes.HomeRoutes: (context) => Home(),
+        MyRoutes.ResetRoutes: (context) => Reset(),
+        MyRoutes.FirstRoutes: (context) => First(),
+        MyRoutes.ResendRoutes: (context) => Resend(),
+
         }
     );
   }

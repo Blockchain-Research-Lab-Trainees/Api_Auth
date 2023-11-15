@@ -9,6 +9,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  String? emailn;
   Future<void> login() async{
     final String endpoint ="https://aeronex-auth-prod.onrender.com/api/v1/auth/login";
     final response=await http.post(Uri.parse(endpoint),
@@ -20,7 +22,7 @@ class _LoginState extends State<Login> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(response.body),),);
     if(response.statusCode==200){
-      Navigator.pushNamed(context, MyRoutes.HomeRoutes);
+      Navigator.pushReplacementNamed(context, MyRoutes.HomeRoutes);
     }else{
       print("error");
     }
@@ -78,6 +80,7 @@ class _LoginState extends State<Login> {
                             if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
                               return 'Invalid email address';
                             }
+                            emailn=emailController.text;
                             return null;
                           },
                         ),
@@ -110,7 +113,11 @@ class _LoginState extends State<Login> {
                             }
                             return null;
                           },
-                        ),
+                        ),SizedBox(height: 5,),
+                        TextButton(onPressed:(){
+                          Navigator.pushReplacementNamed(context, MyRoutes.ResendRoutes);
+                        }, child: Text('Forgot Password',style: TextStyle(fontSize: 12,color: Colors.white),)),
+
                         const SizedBox(height: 45,),
                         ElevatedButton(
                           style:ElevatedButton.styleFrom(backgroundColor: Colors.white,

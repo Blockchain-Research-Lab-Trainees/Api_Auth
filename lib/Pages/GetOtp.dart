@@ -15,14 +15,16 @@ class _GetOtpState extends State<GetOtp> {
   // void initState(){
   //   super.initState();
   // }
+
   Future<void> checkotp()async{
     final String endpoint = "https://aeronex-auth-prod.onrender.com/api/v1/auth/verify";
     try {
       final response = await http.post(
         Uri.parse(endpoint),
         body: {
-          // 'otp': otpController.
-          'otp': BigInt.parse(otpController.text,radix: 6),
+          // 'otp': otpv,
+          // 'otp': otpController.text as int,
+          'otp': otpController.text,
           'email': emailController.text,
         },
       );
@@ -44,9 +46,11 @@ class _GetOtpState extends State<GetOtp> {
       print("Error: $e");
     }
   }
+  int otpval=0;
+
   TextEditingController emailController =TextEditingController();
   TextEditingController otpController =TextEditingController();
-
+  int? otpv;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,6 +91,8 @@ class _GetOtpState extends State<GetOtp> {
                           if (value == null || value.isEmpty) {
                             return "Enter otp";
                           }
+                          otpval=int.parse(otpController.text);
+                          // otpv=int.parse(value!);
                           return null;
                         },
                 ),

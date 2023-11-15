@@ -20,7 +20,7 @@ class _SignUpState extends State<SignUp> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(response.body),),);
     if(response.statusCode==201){
-      Navigator.pushNamed(context, MyRoutes.GetOtpRoutes);
+      Navigator.pushReplacementNamed(context, MyRoutes.GetOtpRoutes);
     }else{
       print("error");
     }
