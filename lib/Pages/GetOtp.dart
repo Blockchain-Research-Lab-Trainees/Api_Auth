@@ -1,7 +1,10 @@
 // import 'dart:js_interop';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../Models/TokenOtp.dart';
 import '../Utils/Routes.dart';
 class GetOtp extends StatefulWidget {
   const GetOtp({super.key});
@@ -10,23 +13,25 @@ class GetOtp extends StatefulWidget {
   State<GetOtp> createState() => _GetOtpState();
 }
 
+String? TokenA;
+String? TokenR;
 class _GetOtpState extends State<GetOtp> {
   final _formKey = GlobalKey<FormState>();
   // void initState(){
   //   super.initState();
   // }
-
+  Token? newT;
   Future<void> checkotp()async{
     final String endpoint = "https://aeronex-auth-prod.onrender.com/api/v1/auth/verify";
     try {
       final response = await http.post(
         Uri.parse(endpoint),
-        body: {
+        body: json.encode({
           // 'otp': otpv,
           // 'otp': otpController.text as int,
-          'otp': otpController.text,
+          'otp': int.parse(otpController.text),
           'email': emailController.text,
-        },
+        }),
       );
 
       print(response.body);
@@ -39,6 +44,10 @@ class _GetOtpState extends State<GetOtp> {
 
       if (response.statusCode == 200) {
         Navigator.pushReplacementNamed(context, MyRoutes.LoginRoutes);
+        newT =tokenFromMap(response.body);
+        TokenA=newT!.accessToken;
+        TokenR=newT!.refreshToken;
+
       } else {
         print("Error: ${response.statusCode} - ${response.reasonPhrase}");
       }
@@ -47,7 +56,6 @@ class _GetOtpState extends State<GetOtp> {
     }
   }
   int otpval=0;
-
   TextEditingController emailController =TextEditingController();
   TextEditingController otpController =TextEditingController();
   int? otpv;
